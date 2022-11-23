@@ -1,0 +1,153 @@
+openapi: 3.0.3
+info:
+  title: Open API PoC - Student Service
+  description: A Simple web service as a PoC of Open API
+  version: 1.0.0
+tags:
+  - name: Student
+    description: Student related services
+paths:
+  /students:
+    post:
+      tags:
+        - Student
+      summary: Add a new student
+      description: Adds a new student to the system
+      operationId: addStudent
+      requestBody:
+        description: Update an existent student
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+        '400':
+          description: Invalid input
+        '500':
+          description: Server error
+    put:
+      tags:
+        - Student
+      summary: Update an existing student
+      description: Update an existing student by Id
+      operationId: updateStudent
+      requestBody:
+        description: Update an existent student
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StudentDTO'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+        '400':
+          description: Invalid input
+        '404':
+          description: Student not found
+        '500':
+          description: Server error
+    get:
+      tags:
+        - Student
+      summary: Get all students
+      description: Retrieve all the students from the system
+      operationId: getStudents
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+        '404':
+          description: Students not found
+        '500':
+          description: Server error
+  /students/{id}:
+    get:
+      tags:
+        - Student
+      parameters:
+        - name: id
+          in: path
+          description: ID of student to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      summary: Get student by ID
+      description: Retrieve a student with provided ID
+      operationId: getStudent
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Student not found
+        '500':
+          description: Server error
+    delete:
+      tags:
+        - Student
+      parameters:
+        - name: id
+          in: path
+          description: ID of student to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      summary: Remove a student by ID
+      description: Delete a student with provided ID
+      operationId: deleteStudent
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ResponseDTO'
+        '400':
+          description: Invalid ID supplied
+        '404':
+          description: Student not found
+        '500':
+          description: Server error
+components:
+  schemas:
+    StudentDTO:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+        age:
+          type: integer
+    ResponseDTO:
+      type: object
+      properties:
+        message:
+          type: string
+        status:
+          type: integer
+        data:
+          type: object
